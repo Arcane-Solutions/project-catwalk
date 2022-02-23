@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { OverviewContext } from '../index.jsx';
@@ -17,6 +17,15 @@ const AddStyle = styled.div`
       margin-left: 5px;
       width: min-content;
     }
+  }
+
+  .out-of-stock {
+    bottom: -2em;
+    left: 5px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: fit-content;
   }
 
 `;
@@ -41,8 +50,19 @@ function AddToCart() {
   const [stockQuantity, setStockQuantity] = useState(0);
   const [quantitySelection, setQuantitySelection] = useState(1);
 
+
+  useEffect(() => {
+    setSizeSelection('Select Size');
+    setStockQuantity(0);
+  }, [stock]);
+
   const handleSizeSelect = (event) => {
     const sizesAndStock = parseStock(stock);
+    if (!sizesAndStock[event.target.value]) {
+      setSizeSelection(event.target.value);
+      setStockQuantity(-1);
+      return;
+    }
     setSizeSelection(event.target.value);
     setStockQuantity(sizesAndStock[event.target.value].quantity);
   };
@@ -65,28 +85,43 @@ function AddToCart() {
       });
   };
 
+  let quantityAndAddToCart = null;
+  if (stockQuantity === -1) {
+    quantityAndAddToCart = <span className="out-of-stock">Out Of Stock</span>;
+  } else {
+    quantityAndAddToCart = (
+      <select
+        data-analytics-id="quantity-selection"
+        value={quantitySelection}
+        onChange={handleQuantitySelect}
+      >
+        {quantities.map((number) => {
+          if (number <= stockQuantity && number <= 15) {
+            return <option label={number} value={number} />;
+          }
+          return null;
+        })}
+      </select>
+    );
+  }
+
   return (
     <AddStyle>
       <div className="size-and-quantity">
-        <select value={sizeSelection} onChange={handleSizeSelect}>
+        <select
+          data-analytics-id="size-selection"
+          value={sizeSelection}
+          onChange={handleSizeSelect}
+        >
           {(sizeSelection === 'Select Size')
             ? <option label="Size" /> : null}
           {sizes.map((size) => <option label={size} value={size} />)}
         </select>
-        {stockQuantity
-          ? (
-            <select value={quantitySelection} onChange={handleQuantitySelect}>
-              {quantities.map((number) => {
-                if (number <= stockQuantity && number <= 15) {
-                  return <option label={number} value={number} />;
-                }
-                return null;
-              })}
-            </select>
-          )
-          : null}
+        {stockQuantity ? quantityAndAddToCart : null}
       </div>
-      <button type="button" onClick={handleAddToCart}>Add To Cart</button>
+      {(stockQuantity === -1)
+        ? null
+        : <button type="button" onClick={handleAddToCart}>Add To Cart</button>}
     </AddStyle>
   );
 }

@@ -33,6 +33,7 @@ function StyleSelection() {
   const { productStyles, currentStyleSelection } = useContext(OverviewContext);
 
 
+  console.log(productStyles);
   if (productStyles.length) {
     const [currentStyleName, setCurrentStyleName] = useState(productStyles[0].name);
     return (
@@ -40,6 +41,7 @@ function StyleSelection() {
         <p className="style-name"><em>{currentStyleName}</em></p>
         {productStyles.map((style) => (
           <StyleName
+            salePrice={style.sale_price}
             className="selector"
             thumb={style.name}
             key={style.style_id}

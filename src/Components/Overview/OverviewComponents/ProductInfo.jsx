@@ -32,7 +32,7 @@ const ProductInformationStyle = styled.div`
 
 function ProductInformation() {
   const { closestQuarter } = useContext(GlobalContext).ratingsData;
-  const { productInfo } = useContext(OverviewContext);
+  const { productInfo, salePrice } = useContext(OverviewContext);
 
   return (
     <ProductInformationStyle>
@@ -41,7 +41,7 @@ function ProductInformation() {
       <h4 className="overview-info category">{productInfo.category}</h4>
       <h3 className="overview-info price">
         $
-        {productInfo.default_price}
+        {salePrice || productInfo.default_price}
       </h3>
       <div className="overview-info description">{productInfo.description}</div>
     </ProductInformationStyle>

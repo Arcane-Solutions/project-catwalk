@@ -4,19 +4,20 @@ import { Standard, standardBorder } from '../../../styles.js';
 import { product, styleOptions } from '../test_data/testdata.js';
 import MainViewScroller from './MainViewScroller.jsx';
 import MainViewImage from './MainViewImage.jsx';
+import ExpandedView from './ExpandedView.jsx';
 import { OverviewContext } from '../index.jsx';
 import loading from './assets/loading.gif';
 
 const ImageView = styled.div`
-  ${Standard}
+
   border: ${standardBorder};
   border-radius: 10px;
-  box-shadow: -2px 2px rgba(89, 255, 255, 0.6);
   margin-right: 20px;
-  max-width: 490px;
-  max-height: 490px;
+  width: min(100%, 490px);
+  height: 490px;
   overflow: hidden;
   position: relative;
+  left: 10px;
 
   img {
     height: 100%;
@@ -36,6 +37,8 @@ function MainView() {
     setCurrentImageThumbs,
   } = useContext(OverviewContext);
 
+  const [expandView, setExpandView] = useState(false);
+
   const index = currentMainImage[1];
 
   useEffect(() => {
@@ -48,6 +51,11 @@ function MainView() {
     });
   }, [currentStyleId]);
 
+  const toggleExpandView = (e) => {
+    e.preventDefault();
+    setExpandView(!expandView);
+  };
+
   if (currentMainImage) {
     return (
       <ImageView>
@@ -57,9 +65,18 @@ function MainView() {
           currentMainImageIndex={currentMainImage[1]}
         />
         <MainViewImage
+          handleClick={toggleExpandView}
           className="main-view"
           currentImage={currentMainImage}
         />
+        {expandView
+          ? (
+            <ExpandedView
+              currentImage={currentMainImage}
+              handleClick={toggleExpandView}
+            />
+          )
+          : null}
       </ImageView>
     );
   }

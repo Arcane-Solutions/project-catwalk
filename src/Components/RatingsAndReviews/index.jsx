@@ -1,10 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, {
-  useContext, createContext, useState, useMemo,
+  useContext, createContext, useState, useMemo, useRef,
 } from 'react';
 import styled from 'styled-components';
 import { colors, styles } from '../../styles.js';
 import RatingsBreakdown from './RatingsBreakdown.jsx';
 import ReviewsList from './ReviewsList.jsx';
+import withAnalytics from '../../HOC/withAnalytics.jsx';
 
 const RandRStyle = styled.div`
   ${styles.Standard};
@@ -54,4 +56,4 @@ function RatingsAndReviews() {
   );
 }
 
-export default RatingsAndReviews;
+export default withAnalytics(RatingsAndReviews, 'reviews-and-ratings');

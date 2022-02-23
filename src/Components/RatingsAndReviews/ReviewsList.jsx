@@ -85,7 +85,14 @@ function ReviewsList() {
       {reviews.length > 0
       && (
       <ScrollDiv>
-        {starList.slice(0, displayNumber).map((review) => <ReviewTile handleRefresh={handleRefresh} review={review} />)}
+        {starList.slice(0, displayNumber).map((review) => (
+          <ReviewTile
+            key={review.review_id}
+            data-testid={`review-${review.review_id}`}
+            handleRefresh={handleRefresh}
+            review={review}
+          />
+        ))}
       </ScrollDiv>
       )}
       <div>

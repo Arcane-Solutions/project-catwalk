@@ -138,7 +138,8 @@ function ReviewModal({ onDismiss, id }) {
   });
   const [reviewCharacteristics, setReviewCharacteristics] = useState({});
 
-  const formSubmit = () => {
+  const formSubmit = (e) => {
+    e.preventDefault();
     axios({
       method: 'post',
       url: '/shopdata/reviews',
@@ -191,8 +192,9 @@ function ReviewModal({ onDismiss, id }) {
           <FormEntry
             value={options.body}
             required
-            maxLength={1000}
+            type="text"
             minLength={50}
+            maxLength={1000}
             placeholder="Example: Best purchase ever!"
             onChange={(e) => setOptions((p) => ({ ...p, body: e.target.value }))}
           />
@@ -237,7 +239,8 @@ function ReviewModal({ onDismiss, id }) {
         </div>
         <HorizontalFlex>
           <button type="button" value="Cancel" onClick={onDismiss}>Cancel</button>
-          <button type="button" value="Submit" onClick={formSubmit}>Submit</button>
+          <input type="submit" value="sumbit" />
+          {/* <button type="button" value="Submit" onClick={formSubmit}>Submit</button> */}
         </HorizontalFlex>
       </Form>
     </Modal>

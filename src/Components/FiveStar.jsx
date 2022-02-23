@@ -87,24 +87,3 @@ FiveStar.propTypes = {
 };
 
 export default FiveStar;
-
-// Example
-// "ratings": {
-//   "1": "1",
-//   "2": "2",
-//   "3": "2",
-//   "4": "2",
-//   "5": "21"
-// }
-
-// Have an empty, 1/4, 1/2, 3/4, and full star drawn (assets folder?)
-// Use modulo and length to figure out what to draw
-// ex 3.8 --> - 1, - 1, -1, -1 (fails) to get 3 full stars
-// -0.75, -0.75 (fails) to get one 3/4 star
-// -0.5 (fails)
-// -0.25 (fails)
-// currently have 4 stars fill in missing (difference from 5) star with a blank
-
-// Ways to get around recalculation using hooks -- useEffect? useMemo?
-// Want to only render on information change
-// To round to nearest quarter Math.round(num * 4) / 4

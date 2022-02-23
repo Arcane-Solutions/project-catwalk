@@ -29,7 +29,8 @@ function ReviewTile({ review, handleRefresh }) {
   } = review;
 
   return (
-    <StyledReview>
+    // eslint-disable-next-line react/destructuring-assignment
+    <StyledReview data-analytics-id={review.review_id}>
       <TopBar>
         <FiveStar rating={rating} />
         <div>

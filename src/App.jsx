@@ -13,13 +13,22 @@ import { colors, styles } from './styles.js';
 import { ratingsCalculator } from './util/util.js';
 
 const GlobalStyle = createGlobalStyle`
+html {
+  display: flex;
+  justify-content: center;
+  left: 50px;
+}
+
 body {
   background-color: ${colors.standardBGColor};
   color: ${colors.standardTxtColor};
   display: flex;
   flex-direction: column;
   font-family: 'Comfortaa', monospace;
-  position: relative;
+  justify-content: center;
+  position: absolute;
+  max-width: 1200px;
+
   button {
     background-color: rgba(255, 240, 240);
     border: thin solid teal;
@@ -85,9 +94,9 @@ function App() {
   });
 
   // For testing
-  const exampleProductIds = [40344, 40345];
+  const exampleProductIds = [40344, 40345, 40348];
 
-  const [productId, setProductId] = useState(exampleProductIds[0]);
+  const [productId, setProductId] = useState(exampleProductIds[2]);
 
   useLayoutEffect(() => {
     axios.get(`shopdata/reviews/meta/?product_id=${productId}`)

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { OverviewContext } from '../index.jsx';
@@ -35,7 +35,7 @@ const SelectedStyle = styled(StyleSelector)`
   :hover {
     background-color: rgb(101, 215, 230);
     border: thin solid gold;
-    cursor: auto;
+    cursor: default;
   }
 
   img {
@@ -45,27 +45,36 @@ const SelectedStyle = styled(StyleSelector)`
   }
 `;
 
-
 function StyleName({
   thumb,
   styleId,
   setCurrentStyleName,
   icon,
+  salePrice,
 }) {
+
   const {
     setCurrentStyleId,
     setCurrentMainImage,
+    setCurrentImageThumbs,
     currentStyleId,
+    setSalePrice,
+    productStyles,
+    setCurrentStyleSelection,
   } = useContext(OverviewContext);
 
   const handleClickOnStyleName = () => {
-    setCurrentStyleId(styleId);
     setCurrentStyleName(thumb);
+    setCurrentStyleId(styleId);
   };
+
+  if (salePrice) {
+    setSalePrice(salePrice);
+  }
 
   if (currentStyleId === styleId) {
     return (
-      <SelectedStyle>
+      <SelectedStyle data-analytics-id="selected style clicked (no effect)">
         <img src={icon} alt={thumb} />
       </SelectedStyle>
     );
@@ -73,6 +82,7 @@ function StyleName({
 
   return (
     <StyleSelector
+      data-analytics-id={`style ${styleId} selected`}
       onClick={handleClickOnStyleName}
     >
       <img src={icon} alt={thumb} />
@@ -85,6 +95,7 @@ StyleName.propTypes = {
   styleId: PropTypes.number.isRequired,
   setCurrentStyleName: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
+  salePrice: PropTypes.isRequired,
 };
 
 export default StyleName;
